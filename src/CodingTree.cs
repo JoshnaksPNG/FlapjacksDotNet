@@ -1,4 +1,4 @@
-﻿namespace WinFormsApp1
+﻿namespace TextHiderDotNet.src
 {
     internal class CodingTree
     {
@@ -47,7 +47,7 @@
                 Node parent = new Node(buf1, buf2, occ1 + occ2);
                 forest.Enqueue(parent, occ1 + occ2);
             }
-            
+
             root = forest.Dequeue();
             current = root;
         }
@@ -80,7 +80,7 @@
             }
         }
 
-        public void goRoot() 
+        public void goRoot()
         {
             current = root;
         }
@@ -89,7 +89,7 @@
         {
             if (encodeMap == null)
             {
-                encodeMap = new Dictionary<string, string> ();
+                encodeMap = new Dictionary<string, string>();
             }
 
             if (node.getName() != null)

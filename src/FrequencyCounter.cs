@@ -1,4 +1,4 @@
-﻿namespace WinFormsApp1
+﻿namespace TextHiderDotNet.src
 {
     internal class FrequencyCounter
     {
@@ -9,13 +9,13 @@
             _map = new Dictionary<char, int>();
         }
 
-        public FrequencyCounter(String input)
+        public FrequencyCounter(string input)
         {
             _map = new Dictionary<char, int>();
-            this.add(input);
+            add(input);
         }
 
-        void add(String input)
+        void add(string input)
         {
             for (int i = 0; i < input.Length; ++i)
             {

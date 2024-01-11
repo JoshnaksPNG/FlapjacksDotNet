@@ -1,4 +1,4 @@
-namespace TextHiderDotNet
+namespace TextHiderDotNet.src
 {
     internal static class Program
     {

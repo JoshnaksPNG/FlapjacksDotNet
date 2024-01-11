@@ -1,5 +1,6 @@
 using System.Drawing.Drawing2D;
 using System.Text;
+using TextHiderDotNet.src;
 
 namespace TextHiderDotNet
 {

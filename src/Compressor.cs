@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinFormsApp1;
 
-namespace TextHiderDotNet
+namespace TextHiderDotNet.src
 {
     internal class Compressor
     {
@@ -19,7 +18,7 @@ namespace TextHiderDotNet
         CodingTree tree;
 
 
-        public Compressor(string input) 
+        public Compressor(string input)
         {
             original = input;
             tree = new CodingTree();
@@ -43,7 +42,7 @@ namespace TextHiderDotNet
                     int bitVal = input[i] == '0' ? 0 : 1;
 
                     // Mask input int with the input bit shifted right by bitval
-                    inputByte = (byte)(inputByte | (bitVal << bitIDX));
+                    inputByte = (byte)(inputByte | bitVal << bitIDX);
 
                     ++bitIDX;
                     if (bitIDX > 7)
@@ -58,7 +57,7 @@ namespace TextHiderDotNet
 
             for (int i = 0; i < encoded_string.Count; ++i)
             {
-                bytes[i] = (byte) encoded_string[i];
+                bytes[i] = (byte)encoded_string[i];
             }
 
             return bytes;
