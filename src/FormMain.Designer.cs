@@ -1,6 +1,6 @@
 ﻿namespace TextHiderDotNet
 {
-    partial class Form1
+    partial class FormMain
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label9 = new Label();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            trackBar1 = new TrackBar();
             button3 = new Button();
             checkBox1 = new CheckBox();
             pictureBox1 = new PictureBox();
@@ -39,16 +46,25 @@
             label1 = new Label();
             textBox1 = new TextBox();
             comboBox1 = new ComboBox();
-            trackBar1 = new TrackBar();
-            label3 = new Label();
-            label4 = new Label();
+            groupBox2 = new GroupBox();
+            textBox4 = new TextBox();
+            button6 = new Button();
+            button5 = new Button();
+            button4 = new Button();
+            label5 = new Label();
+            textBox3 = new TextBox();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label9);
+            groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(trackBar1);
@@ -69,6 +85,73 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Write Image";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(242, 485);
+            label9.Name = "label9";
+            label9.Size = new Size(20, 15);
+            label9.TabIndex = 8;
+            label9.Text = "0B";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(215, 123);
+            label8.Name = "label8";
+            label8.Size = new Size(20, 15);
+            label8.TabIndex = 7;
+            label8.Text = "0B";
+            label8.Click += label8_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(152, 123);
+            label7.Name = "label7";
+            label7.Size = new Size(57, 15);
+            label7.TabIndex = 6;
+            label7.Text = "Text Size: ";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(152, 485);
+            label6.Name = "label6";
+            label6.Size = new Size(84, 15);
+            label6.TabIndex = 2;
+            label6.Text = "Storage Space:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(116, 470);
+            label4.Name = "label4";
+            label4.Size = new Size(30, 15);
+            label4.TabIndex = 5;
+            label4.Text = "1 bit";
+            label4.Click += label4_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(15, 452);
+            label3.Name = "label3";
+            label3.Size = new Size(85, 15);
+            label3.TabIndex = 1;
+            label3.Text = "Significant Bits";
+            // 
+            // trackBar1
+            // 
+            trackBar1.Location = new Point(6, 470);
+            trackBar1.Maximum = 8;
+            trackBar1.Minimum = 1;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(104, 45);
+            trackBar1.TabIndex = 1;
+            trackBar1.Value = 1;
+            trackBar1.Scroll += trackBar1_Scroll;
             // 
             // button3
             // 
@@ -150,6 +233,7 @@
             // 
             textBox1.Location = new Point(6, 90);
             textBox1.Name = "textBox1";
+            textBox1.ScrollBars = ScrollBars.Horizontal;
             textBox1.Size = new Size(312, 23);
             textBox1.TabIndex = 1;
             textBox1.TextChanged += textBox1_TextChanged;
@@ -164,49 +248,95 @@
             comboBox1.Text = "Input Method";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
-            // trackBar1
+            // groupBox2
             // 
-            trackBar1.Location = new Point(6, 470);
-            trackBar1.Maximum = 8;
-            trackBar1.Minimum = 1;
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(104, 45);
-            trackBar1.TabIndex = 1;
-            trackBar1.Value = 1;
-            trackBar1.Scroll += trackBar1_Scroll;
+            groupBox2.Controls.Add(textBox4);
+            groupBox2.Controls.Add(button6);
+            groupBox2.Controls.Add(button5);
+            groupBox2.Controls.Add(button4);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(textBox3);
+            groupBox2.Location = new Point(342, 12);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(324, 708);
+            groupBox2.TabIndex = 1;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "ReadImage";
+            groupBox2.Enter += groupBox2_Enter;
             // 
-            // label3
+            // textBox4
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 452);
-            label3.Name = "label3";
-            label3.Size = new Size(85, 15);
-            label3.TabIndex = 1;
-            label3.Text = "Significant Bits";
+            textBox4.Location = new Point(6, 238);
+            textBox4.Multiline = true;
+            textBox4.Name = "textBox4";
+            textBox4.ScrollBars = ScrollBars.Vertical;
+            textBox4.Size = new Size(312, 204);
+            textBox4.TabIndex = 5;
+            textBox4.TextChanged += textBox4_TextChanged;
             // 
-            // label4
+            // button6
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(116, 470);
-            label4.Name = "label4";
-            label4.Size = new Size(30, 15);
-            label4.TabIndex = 5;
-            label4.Text = "1 bit";
-            label4.Click += label4_Click;
+            button6.Location = new Point(6, 517);
+            button6.Name = "button6";
+            button6.Size = new Size(130, 23);
+            button6.TabIndex = 4;
+            button6.Text = "Save Text as File";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
-            // Form1
+            // button5
+            // 
+            button5.Location = new Point(6, 179);
+            button5.Name = "button5";
+            button5.Size = new Size(312, 23);
+            button5.TabIndex = 3;
+            button5.Text = "Decode Image";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(6, 119);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 2;
+            button4.Text = "Select File";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 72);
+            label5.Name = "label5";
+            label5.Size = new Size(71, 15);
+            label5.TabIndex = 1;
+            label5.Text = "Input Image";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(6, 90);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(312, 23);
+            textBox3.TabIndex = 0;
+            textBox3.TextChanged += textBox3_TextChanged;
+            // 
+            // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1224, 732);
+            Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "FormMain";
+            Text = "Flapjacks";
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -226,5 +356,16 @@
         private TrackBar trackBar1;
         private Label label4;
         private Label label3;
+        private GroupBox groupBox2;
+        private Button button5;
+        private Button button4;
+        private Label label5;
+        private TextBox textBox3;
+        private Button button6;
+        private TextBox textBox4;
+        private Label label9;
+        private Label label8;
+        private Label label7;
+        private Label label6;
     }
 }

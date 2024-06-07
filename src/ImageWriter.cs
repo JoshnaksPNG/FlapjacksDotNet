@@ -56,19 +56,27 @@ namespace TextHiderDotNet
             {
                 for (; pixX < bitmap.Width && dataptr < bitData.Length; ++pixX)
                 {
-                    for (int i = 0; i < sig_bits; ++i)
+                    for (byte ch = 0; ch < 3 && dataptr < bitData.Length; ++ch)
                     {
-                        // Pixel stuff
+                        for (byte i = 0; i < sig_bits ; ++i)
+                        {
+                            // Pixel stuff
+                            Write_pixel_bit(bitmap, i, bitData.Get(dataptr), pixX, pixY, (Color_Channel) ch);
+
+                            ++dataptr;
+                        }
                     }
                 }
 
                 pixX = 0;
             }
 
+            
+
             return bitmap;
         }
 
-        private static void Write_pixel_bit(Bitmap bmp, byte[] indecies, bool[] values, int x, int y, Color_Channel channel)
+        private static void write_pixel_bit(Bitmap bmp, byte[] indecies, bool[] values, int x, int y, Color_Channel channel)
         {
             Color color = bmp.GetPixel(x, y);
 
@@ -172,9 +180,7 @@ namespace TextHiderDotNet
             bmp.SetPixel(x, y, written_color);
         }
 
-        public ImageWriter() { }
-
-        private enum Color_Channel
+        public enum Color_Channel
         {
             Red,
             Green,
