@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +19,12 @@ namespace TextHiderDotNet
             return writtenImg;
         }*/
 
-        public static Bitmap write(string path, byte[] data, int sig_bits, bool compressed)
+        public static Bitmap write(string path, byte[] data, int sig_bits, bool compressed, bool isRawFile)
         {
             Bitmap bitmap = new Bitmap(path);
+
+            // 8 byte size of data being written to file
+            byte[] dataSize = byteSize((ulong)data.LongLength);
 
             // Scope To Manage Trash
             { 
@@ -41,7 +46,7 @@ namespace TextHiderDotNet
 
                 
                 Write_pixel_bit(bitmap, 0, compressed, 1, 0, Color_Channel.Red);
-                Write_pixel_bit(bitmap, 0, compressed, 1, 0, Color_Channel.Green);
+                Write_pixel_bit(bitmap, 0, isRawFile, 1, 0, Color_Channel.Green);
                 Write_pixel_bit(bitmap, 0, compressed, 1, 0, Color_Channel.Blue);
                 
             }
@@ -50,7 +55,11 @@ namespace TextHiderDotNet
             int pixY = 0;
             int dataptr = 0;
 
-            BitArray bitData = new BitArray(data);
+            byte[] dataWithSize = new byte[data.LongLength + dataSize.Length];
+            dataSize.CopyTo(dataWithSize, 0);
+            data.CopyTo(dataWithSize, dataSize.Length);
+
+            BitArray bitData = new BitArray(dataWithSize);
 
             for (; pixY < bitmap.Height && dataptr < bitData.Length; ++pixY)
             {
@@ -178,6 +187,45 @@ namespace TextHiderDotNet
             }
 
             bmp.SetPixel(x, y, written_color);
+        }
+
+        public static byte[] byteSize(ulong dataSize)
+        {
+            
+            ulong size = dataSize;
+
+            byte[] bytes = new byte[8];
+
+            short idx = 63;
+
+            byte arrayidx = (byte)(idx / 8);
+            byte byteidx = (byte)(idx % 8);
+
+            while (idx >= 0)
+            {
+                byte writeVal = bytes[arrayidx];
+
+                byte mask = (byte)(1 << byteidx);
+
+                ulong significance = (ulong) Math.Pow(2, idx);
+
+                bool shouldWrite = size >= significance;
+
+                byte val = (byte)(shouldWrite ? 255 : 0);
+
+                bytes[arrayidx] = (byte)(writeVal ^ ((writeVal ^ val) & mask));
+
+                --idx;
+                arrayidx = (byte)(idx / 8);
+                byteidx = (byte)(idx % 8);
+
+                if(shouldWrite) 
+                {
+                    size -= significance;
+                } 
+            }
+
+            return bytes;
         }
 
         public enum Color_Channel

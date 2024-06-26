@@ -17,6 +17,10 @@ namespace TextHiderDotNet
 
         int sig_bits;
 
+        byte[] read_data;
+
+        bool dataIsRawFile;
+
 
         public FormMain()
         {
@@ -45,7 +49,8 @@ namespace TextHiderDotNet
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.Items.Add("String Input");
-            comboBox1.Items.Add("File Input");
+            comboBox1.Items.Add("Text File Input");
+            comboBox1.Items.Add("Raw File Input");
 
             textBox1.Visible = false;
             button1.Visible = false;
@@ -62,10 +67,22 @@ namespace TextHiderDotNet
         {
             OpenFileDialog openFile = new OpenFileDialog();
 
-            openFile.Title = "Select Text";
-            openFile.InitialDirectory = @"C:\\";
-            openFile.Filter = "Text File (*.txt)|*.txt";
-            openFile.FilterIndex = 1;
+            if (comboBox1.Text == "Raw File Input")
+            {
+                openFile.Title = "Select File";
+                openFile.InitialDirectory = @"C:\\";
+                openFile.Filter = "Any File Format (*.*)|*.*";
+                openFile.FilterIndex = 1;
+            }
+            else
+            {
+                openFile.Title = "Select Text";
+                openFile.InitialDirectory = @"C:\\";
+                openFile.Filter = "Text File (*.txt)|*.txt";
+                openFile.FilterIndex = 1;
+            }
+
+
 
             openFile.ShowDialog();
 
@@ -75,20 +92,32 @@ namespace TextHiderDotNet
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string write;
+            double textSize = 0;
 
-            if (comboBox1.SelectedIndex == 1 && textBox1.Text != "")
+            if (comboBox1.Text != "Raw File Input")
             {
-                write = File.ReadAllText(textBox1.Text);
+                string write;
+
+                if (comboBox1.SelectedIndex == 1 && textBox1.Text != "")
+                {
+                    write = File.ReadAllText(textBox1.Text);
+                }
+                else if (comboBox1.Text == "Text File Input")
+                {
+                    write = textBox1.Text;
+                }
+
+                write += "\0";
+
+                textSize = write.Length;
             }
             else
             {
-                write = textBox1.Text;
+                FileInfo file = new FileInfo(textBox1.Text);
+
+                textSize = file.Length;
             }
 
-            write += "\0";
-
-            double textSize = write.Length;
             byte sizeUnit = 0;
 
             while (textSize >= 1024)
@@ -172,35 +201,47 @@ namespace TextHiderDotNet
                 return;
             }
 
-            string write;
+            byte[] data;
 
-            if (comboBox1.SelectedIndex == 1)
+            if (comboBox1.Text == "Raw File Input")
             {
-                write = File.ReadAllText(textBox1.Text);
+                data = File.ReadAllBytes(textBox1.Text);
             }
             else
             {
-                write = textBox1.Text;
+                string write;
+
+                if (comboBox1.Text == "Text File Input")
+                {
+                    write = File.ReadAllText(textBox1.Text);
+                }
+                else
+                {
+                    write = textBox1.Text;
+                }
+
+                write += "\0";
+
+                data = Encoding.UTF8.GetBytes(write);
             }
 
-            write += "\0";
 
-            byte[] data;
 
-            List<byte> tempData = new List<byte>();
 
-            if (compress)
+            //List<byte> tempData = new List<byte>();
+
+            /*if (compress)
             {
                 Compressor compressor = new Compressor(write);
 
                 data = compressor.compress(write);
             }
             else
-            {
-                data = Encoding.UTF8.GetBytes(write);
-            }
+            {*/
 
-            Image outputImg = ImageWriter.write(textBox2.Text, data, sig_bits, false);
+            /*}*/
+
+            Image outputImg = ImageWriter.write(textBox2.Text, data, sig_bits, false, comboBox1.Text == "Raw File Input");
 
             SaveFileDialog saveFile = new SaveFileDialog();
 
@@ -263,11 +304,23 @@ namespace TextHiderDotNet
         {
             SaveFileDialog saveFile = new SaveFileDialog();
 
-            saveFile.Title = "Save Text as File";
-            saveFile.InitialDirectory = @"C:\\";
-            saveFile.Filter = "Text File (*.txt)|*.txt";
-            saveFile.FilterIndex = 1;
-            saveFile.OverwritePrompt = true;
+            if (!dataIsRawFile)
+            {
+                saveFile.Title = "Save Text as File";
+                saveFile.InitialDirectory = @"C:\\";
+                saveFile.Filter = "Text File (*.txt)|*.txt";
+                saveFile.FilterIndex = 1;
+                saveFile.OverwritePrompt = true;
+            }
+            else
+            {
+                saveFile.Title = "Save Data as File";
+                saveFile.InitialDirectory = @"C:\\";
+                saveFile.Filter = "Any File (*.*)|*.*";
+                saveFile.FilterIndex = 1;
+                saveFile.OverwritePrompt = true;
+            }
+
 
             saveFile.ShowDialog();
 
@@ -278,9 +331,16 @@ namespace TextHiderDotNet
 
             FileStream fs = (FileStream)saveFile.OpenFile();
 
-            StreamWriter outputWriter = new StreamWriter(fs);
+            if (!dataIsRawFile)
+            {
+                StreamWriter outputWriter = new StreamWriter(fs);
 
-            outputWriter.Write(textBox4.Text);
+                outputWriter.Write(textBox4.Text);
+            }
+            else
+            {
+                fs.Write(read_data, 0, read_data.Length);
+            }
 
             fs.Dispose();
         }
@@ -314,9 +374,25 @@ namespace TextHiderDotNet
                 return;
             }
 
-            string decoded = ImageReader.read(textBox3.Text);
+            bool isRaw = false;
 
-            textBox4.Text = decoded;
+            read_data = ImageReader.read(textBox3.Text, out isRaw);
+
+
+
+            if (isRaw)
+            {
+                textBox4.Text = "Input is a raw File";
+            }
+            else
+            {
+
+                textBox4.Text = ImageReader.strFromByteArray(read_data);
+            }
+
+            dataIsRawFile = isRaw;
+
+
 
 
         }
@@ -362,6 +438,11 @@ namespace TextHiderDotNet
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
         {
 
         }

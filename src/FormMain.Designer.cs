@@ -116,9 +116,10 @@
             label7.Location = new Point(217, 205);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(87, 25);
+            label7.Size = new Size(99, 25);
             label7.TabIndex = 6;
-            label7.Text = "Text Size: ";
+            label7.Text = "Input Size: ";
+            label7.Click += label7_Click;
             // 
             // label6
             // 
